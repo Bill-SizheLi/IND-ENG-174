@@ -10,7 +10,7 @@ from scipy import stats
 random_seed = 5
 random.seed(random_seed)
 np.random.seed(random_seed)
-sample_size = 3
+sample_size = 100
 
 service_waiting_times, severity_cor_waiting_times = simulate_service_process()
 

@@ -13,7 +13,7 @@ average_length_of_stays = [3, 7, 15] # averagely, Mild - 3 days; Moderate - 7 da
 capacity = 100 # If you want to modify this parameter, please simultaneously modify 'capacity' in Part_2_CareGiver/CareRequest.py
 
 # This function tracks the departure times of patients under the assumption of FIFO.
-def simulate_departure_process_FIFO(arrival_times = arrival_times, severity_level_list = severity_level_list, capacity = capacity):
+def simulate_departure_process_FIFO(arrival_times, severity_level_list, capacity = capacity):
     departure_times = []
     current_ICU_departures = [] # tracks the departure times of those patients currently in ICU.
     start_times = []
@@ -37,13 +37,12 @@ def simulate_departure_process_FIFO(arrival_times = arrival_times, severity_leve
 
     return departure_times, start_times
         
-departure_times, start_times = simulate_departure_process_FIFO()
 
 #print(arrival_times)
 #print(start_times)
 #print(simulate_departure_process_FIFO())
 
-def calculate_waiting_times(arrival_times = arrival_times, start_times = start_times):
+def calculate_waiting_times(arrival_times, start_times):
     waiting_times = []
 
     for i in range(len(arrival_times)):
@@ -54,13 +53,13 @@ def calculate_waiting_times(arrival_times = arrival_times, start_times = start_t
 
 #print(calculate_waiting_times())
 
-waiting_times = calculate_waiting_times()
 
 #print(len(severity_level_list))
 #print(len(waiting_times))
 
 # To resolve the in-consistency issue.
-def simultaneously_return(arrival_times = arrival_times, severity_level_list = severity_level_list, 
-                          start_times = start_times, departure_times = departure_times,
-                          waiting_times = waiting_times): 
+def simultaneously_return(): 
+    arrival_times, severity_level_list = simulate_arrival_process()
+    departure_times, start_times = simulate_departure_process_FIFO(arrival_times, severity_level_list)
+    waiting_times = calculate_waiting_times(arrival_times, start_times)
     return arrival_times, severity_level_list, start_times, departure_times, waiting_times

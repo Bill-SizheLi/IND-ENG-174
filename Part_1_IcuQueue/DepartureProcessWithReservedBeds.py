@@ -8,15 +8,14 @@ import numpy as np
 import heapq
 
 
-arrival_times, severity_level_list = simulate_arrival_process()
-length_of_stays = generate_length_of_stays(severity_level_list)
 capacity = 100 # If you want to modify this parameter, please simultaneously modify 'capacity' in Part_2_CareGiver/CareRequest.py
 reserved_capacity = 30
 
 
-def simulate_departure_process_with_reserved_beds(arrival_times=arrival_times, severity_level_list=severity_level_list,
+def simulate_departure_process_with_reserved_beds(arrival_times, severity_level_list,
                                                capacity=capacity, reserved_capacity=reserved_capacity):
     regular_capacity = capacity - reserved_capacity 
+    length_of_stays = generate_length_of_stays(severity_level_list)
 
     departure_times = []
     start_times = []
@@ -83,10 +82,8 @@ def simulate_departure_process_with_reserved_beds(arrival_times=arrival_times, s
 
     return departure_times, start_times
 
-departure_times, start_times = simulate_departure_process_with_reserved_beds()
 
-
-def calculate_waiting_times(arrival_times = arrival_times, start_times = start_times):
+def calculate_waiting_times(arrival_times, start_times):
     waiting_times = []
 
     for i in range(len(arrival_times)):
@@ -95,10 +92,11 @@ def calculate_waiting_times(arrival_times = arrival_times, start_times = start_t
 
     return waiting_times
 
-waiting_times = calculate_waiting_times()
 
-def simultaneously_return(arrival_times=arrival_times, severity_level_list=severity_level_list,
-                          start_times=start_times, departure_times=departure_times, waiting_times=waiting_times):
+def simultaneously_return():
+    arrival_times, severity_level_list = simulate_arrival_process()
+    departure_times, start_times = simulate_departure_process_with_reserved_beds(arrival_times, severity_level_list)
+    waiting_times = calculate_waiting_times(arrival_times, start_times)
     return arrival_times, severity_level_list, start_times, departure_times, waiting_times
 
 

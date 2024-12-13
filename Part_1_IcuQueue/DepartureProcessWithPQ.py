@@ -2,15 +2,14 @@ import heapq
 
 from ArrivalProcess import simulate_arrival_process, generate_length_of_stays
 
-arrival_times, severity_level_list = simulate_arrival_process()
-length_of_stays = generate_length_of_stays(severity_level_list)
 capacity = 100  # Maximum ICU capacity
 
-def simulate_departure_process_priority(arrival_times=arrival_times, severity_level_list=severity_level_list, capacity=capacity):
+def simulate_departure_process_priority(arrival_times, severity_level_list, capacity=capacity):
     departure_times = [None] * len(arrival_times)
     current_ICU_departures = []   
     start_times = [None] * len(arrival_times)
     waiting_queue = []  # Priority queue to manage patients waiting for ICU admission
+    length_of_stays = generate_length_of_stays(severity_level_list)
 
     for i in range(len(arrival_times)):
         temporary_departure_time_list = []
@@ -97,26 +96,23 @@ def simulate_departure_process_priority(arrival_times=arrival_times, severity_le
     return departure_times, start_times
 
 
-# Call the simulation function with priority queue
-departure_times, start_times = simulate_departure_process_priority()
+
 # Calculate waiting times
-def calculate_waiting_times(arrival_times=arrival_times, start_times=start_times):
+def calculate_waiting_times(arrival_times, start_times):
     waiting_times = []
     for i in range(len(arrival_times)):
         waiting_time = start_times[i] - arrival_times[i]
         waiting_times.append(waiting_time)
     return waiting_times
 
-waiting_times = calculate_waiting_times()
 
 # Package the results for return
-def simultaneously_return(arrival_times=arrival_times, severity_level_list=severity_level_list,
-                          start_times=start_times, departure_times=departure_times, waiting_times=waiting_times):
+def simultaneously_return():
+    arrival_times, severity_level_list = simulate_arrival_process()
+    departure_times, start_times = simulate_departure_process_priority(arrival_times, severity_level_list)
+    waiting_times = calculate_waiting_times(arrival_times, start_times)
     return arrival_times, severity_level_list, start_times, departure_times, waiting_times
 
-
-# Simulate data generation
-arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
 
 
 '''

@@ -1,62 +1,26 @@
-from DepartureProcessWithFIFO import simultaneously_return
+from DepartureProcessWithDPQandReservedBeds import simultaneously_return
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
-import random
 from scipy import stats
+import random
 
 random_seed = 5
 random.seed(random_seed)
 np.random.seed(random_seed)
+
 sample_size = 100
-
-# Fetch data
-arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
-
-'''
-# Penalty Function using Logistic Regression
-alpha_1 = 0.01  # Logistic sensitivity for severity and waiting time
-m_1 = 1
-
-def penaltyFunction(m_1=m_1, alpha_1=alpha_1, severity_level_list=severity_level_list, waiting_times=waiting_times):
-    total_penalty = 0
-    for i in range(len(waiting_times)):
-        severity = severity_level_list[i]
-        waiting_time = waiting_times[i]
-        # Calculate mortality probability using logistic regression
-        mortality_probability = np.e ** (alpha_1 * severity * waiting_time) - 1
-        # Total penalty as the sum of mortality probabilities
-        total_penalty += m_1 * mortality_probability
-    return total_penalty
-'''
-
-
 m_1 = 1 
 alpha_1 = 0.005
 
-def penaltyFunction1(m_1 = m_1, alpha = alpha_1, severity_level_list = severity_level_list, waiting_times = waiting_times):
+def penaltyFunction1(m_1, alpha, severity_level_list, waiting_times):
     total_penalty = 0
     for i in range(len(severity_level_list)):
         severity = severity_level_list[i]
         waiting_time = waiting_times[i]
         total_penalty += m_1 * (np.exp(alpha * severity * waiting_time) - 1)
     return total_penalty
-
-print(penaltyFunction1())
-
-
-# Calculate average penalty
-penalty = penaltyFunction1()
-num_patients = len(waiting_times)
-#average_penalty = total_penalty / num_patients
-
-'''
-print(f"Total Penalty: {total_penalty}")
-print(f"Average Penalty per Patient: {average_penalty}")
-'''
-
-
 
 
 # Function to run 100 simulations and aggregate the results
@@ -127,7 +91,7 @@ figures_dir = os.path.join(output_dir, "figures")
 os.makedirs(figures_dir, exist_ok=True)
 
 # Save the plot to the figures folder
-plot_path = os.path.join(figures_dir, "baseline.png") 
+plot_path = os.path.join(figures_dir, "DPQ+reserved.png") 
 
 grouped_avg = run_multiple_simulations(num_simulations=100, bin_size=24)
 plot_average_severity_distribution(grouped_avg, bin_size=24, save_path=plot_path)
@@ -145,11 +109,11 @@ def penalty_average(sample_size, m_1 = m_1, alpha_1 = alpha_1):
         arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
         penalty = float(penaltyFunction1(m_1, alpha_1, severity_level_list, waiting_times))
         penalty_list.append(penalty)
-        average_penalty = np.average(penalty_list)
+    average_penalty = np.average(penalty_list)
     return average_penalty, penalty_list
 
 average_penalty, penalty_list = penalty_average(sample_size)
-print(penalty_list)
+#print(penalty_list)
 
 def calculate_confidence_interval(data = penalty_list, confidence=0.95):
     mean = np.mean(data)
@@ -172,7 +136,7 @@ penalties_dir = os.path.join(output_dir, "penalties")
 os.makedirs(penalties_dir, exist_ok=True)
 
 # Save the average penalty to a file
-penalty_file_name = "baseline.txt" 
+penalty_file_name = "DPQ+reserved.txt" 
 penalty_path = os.path.join(penalties_dir, penalty_file_name)
 
 with open(penalty_path, "w") as f:

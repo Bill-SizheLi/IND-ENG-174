@@ -54,7 +54,7 @@ def simulate_arrival_process(time_horizon = time_horizon, lambda_max = lambda_ma
 
 # print(simulate_arrival_process())
 
-arrival_times, severity_level_list = simulate_arrival_process()
+#arrival_times, severity_level_list = simulate_arrival_process()
 
 def generate_length_of_stays(severity_level_list, average_length_of_stays=average_length_of_stays):
     length_of_stays = []
@@ -66,18 +66,3 @@ def generate_length_of_stays(severity_level_list, average_length_of_stays=averag
 
 # length_of_stays = generate_length_of_stays(severity_level_list)
 # print(length_of_stays[23])
-"""
-total_1 = 0
-total_2 = 0
-total_3 = 0
-for i in severity_level_list:
-    if i == 1:
-        total_1 += 1
-    elif i == 2:
-        total_2 += 1
-    else:
-        total_3 += 1
-print(total_1 / len(severity_level_list))
-print(total_2 / len(severity_level_list))
-print(total_3 / len(severity_level_list))
-"""
