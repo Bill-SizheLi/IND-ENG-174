@@ -1,15 +1,7 @@
-import sys
-
-project_root = '/Users/sizheli/Desktop/INDENG_174/IND-ENG-174'
-sys.path.append(project_root)
-
-from Part_1_IcuQueue.DepartureProcessWithFIFO import simultaneously_return
-
 import heapq
 import numpy as np
 import random
 
-arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
 #print(arrival_times)
 
 request_frequency = 2 # i.e. averagely, every patient request two service per hour
@@ -42,8 +34,9 @@ service_probabilities = {
     },
 }
 
-def simulate_service_process(request_frequency=request_frequency, capacity=capacity, number_of_care_givers=number_of_care_givers,
-                             time_horizon=time_horizon, start_times=start_times, departure_times=departure_times, severity_level_list=severity_level_list,
+def simulate_service_process(start_times, departure_times, severity_level_list, arrival_times,
+                             request_frequency=request_frequency, capacity=capacity, 
+                             number_of_care_givers=number_of_care_givers, time_horizon=time_horizon,
                              service_type=service_type, mean_service_time=mean_service_time, b_1 = b_1, b_2 = b_2):
   
 
