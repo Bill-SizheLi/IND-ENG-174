@@ -1,6 +1,10 @@
 import heapq
+import sys
 
-from Part_1_IcuQueue.ArrivalProcess import simulate_arrival_process, generate_length_of_stays,rate_distribution_pdf
+project_root = '/Users/sizheli/Desktop/INDENG_174/IND-ENG-174'
+sys.path.append(project_root)
+
+from Part_1_IcuQueue.ArrivalProcess import simulate_arrival_process, rate_distribution_pdf, generate_length_of_stays
 
 capacity = 100  # Maximum ICU capacity
 average_length_of_stays = [3, 7, 15]
@@ -107,10 +111,10 @@ def calculate_waiting_times(arrival_times, start_times):
 
 
 # Package the results for return
-def simultaneously_return(delta_arrival = 0.00, delta_length_of_stays=0.00):
+def simultaneously_return(delta_arrival = 0.00, delta_length_of_stays=0.00, capacity=capacity):
     arrival_times, severity_level_list = simulate_arrival_process(delta_arrival=delta_arrival)
     length_of_stays = generate_length_of_stays(severity_level_list,average_length_of_stays=[days + delta_length_of_stays for days in average_length_of_stays])
-    departure_times, start_times = simulate_departure_process_priority(arrival_times, severity_level_list,length_of_stays)
+    departure_times, start_times = simulate_departure_process_priority(arrival_times, severity_level_list, length_of_stays, capacity)
     waiting_times = calculate_waiting_times(arrival_times, start_times)
     return arrival_times, severity_level_list, start_times, departure_times, waiting_times
 
