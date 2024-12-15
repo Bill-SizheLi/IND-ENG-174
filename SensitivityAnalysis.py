@@ -4,6 +4,11 @@ import numpy as np
 from Part_2_CareGiver.CareGiverMain import run_multiple_simulations, penalty_average_2
 from Part_1_IcuQueue.IcuQueueMain import run_multiple_simulations, penalty_average_1
 import sys
+import random
+
+random_seed = 5
+random.seed(random_seed)
+np.random.seed(random_seed)
 
 project_root = '/Users/李奕瑶/IND-ENG-174'
 sys.path.append(project_root)
@@ -12,7 +17,7 @@ sys.path.append(project_root)
 random_seed = 5
 np.random.seed(random_seed)
 
-def run_sensitivity_analysis( sample_size=3, delta_arrival=0.5, delta_length_of_stays =0.5, delta_request_frequency = 0.5, delta_mean_service_time = 0.1):
+def run_sensitivity_analysis( sample_size=5, delta_arrival=0.8, delta_length_of_stays =0.6, delta_request_frequency = 0.5, delta_mean_service_time = 0.08):
    
     results = []
 
@@ -47,9 +52,7 @@ def run_sensitivity_analysis( sample_size=3, delta_arrival=0.5, delta_length_of_
 
 
 def plot_tornado_chart(results_df):
-    """
-    根据灵敏度分析的结果绘制 Tornado 图。
-    """
+    
     results_df = results_df.sort_values(by="Effect", ascending=False)
 
     fig, ax = plt.subplots(figsize=(10, 6))

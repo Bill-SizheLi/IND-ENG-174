@@ -3,7 +3,7 @@ import random
 
 
 time_horizon = 10 # If you want to modify this parameter, please simultaneously modify 'time_horizon' in Part_2_CareGiver/CareRequest.py
-lambda_max = 3.0 
+lambda_max = 4.0 
 severity_levels = [1, 2, 3] # 1 - Mild; 2 - Moderate; 3 - Severe
 probabilities = [0.2, 0.5, 0.3] 
 average_length_of_stays = [3, 7, 15] # averagely, Mild - 3 days; Moderate - 7 days; Severe - 15 days.
