@@ -1,4 +1,4 @@
-from Part_1_IcuQueue.DepartureProcessWithDPQandReservedBeds import simultaneously_return
+from Part_1_IcuQueue.DepartureProcessWithReservedBeds import simultaneously_return
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -85,16 +85,16 @@ def plot_average_severity_distribution(grouped_avg, bin_size = 24, save_path = N
 
 
 
-# Create output directories
-output_dir = "Part_1_IcuQueue"
-figures_dir = os.path.join(output_dir, "figures")
-os.makedirs(figures_dir, exist_ok=True)
+# # Create output directories
+# output_dir = "Part_1_IcuQueue"
+# figures_dir = os.path.join(output_dir, "figures")
+# os.makedirs(figures_dir, exist_ok=True)
 
-# Save the plot to the figures folder
-plot_path = os.path.join(figures_dir, "DPQ+reserved.png") 
+# # Save the plot to the figures folder
+# plot_path = os.path.join(figures_dir, "DPQ+reserved.png") 
 
-grouped_avg = run_multiple_simulations(num_simulations=100, bin_size=24)
-plot_average_severity_distribution(grouped_avg, bin_size=24, save_path=plot_path)
+# grouped_avg = run_multiple_simulations(num_simulations=100, bin_size=24)
+# plot_average_severity_distribution(grouped_avg, bin_size=24, save_path=plot_path)
 
 
 
@@ -131,17 +131,17 @@ print("Average Penalty:", average_penalty)
 print("95% Confidence Interval:", calculate_confidence_interval())
 
 
-# Create a penalties subdirectory
-penalties_dir = os.path.join(output_dir, "penalties")
-os.makedirs(penalties_dir, exist_ok=True)
+# # Create a penalties subdirectory
+# penalties_dir = os.path.join(output_dir, "penalties")
+# os.makedirs(penalties_dir, exist_ok=True)
 
-# Save the average penalty to a file
-penalty_file_name = "DPQ+reserved.txt" 
-penalty_path = os.path.join(penalties_dir, penalty_file_name)
+# # Save the average penalty to a file
+# penalty_file_name = "DPQ+reserved.txt" 
+# penalty_path = os.path.join(penalties_dir, penalty_file_name)
 
-with open(penalty_path, "w") as f:
-    f.write(f"Penalty 1(Average): {average_penalty}\n")
-    f.write(f"95% Confidence Interval:: {calculate_confidence_interval()}\n")
+# with open(penalty_path, "w") as f:
+#     f.write(f"Penalty 1(Average): {average_penalty}\n")
+#     f.write(f"95% Confidence Interval:: {calculate_confidence_interval()}\n")
 
-print(f"Penalty result saved to {penalty_path}")
+# print(f"Penalty result saved to {penalty_path}")
 

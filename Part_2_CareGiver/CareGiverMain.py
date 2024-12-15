@@ -10,7 +10,7 @@ import sys
 project_root = '/Users/李奕瑶/IND-ENG-174'
 sys.path.append(project_root)
 
-from Part_1_IcuQueue.DepartureProcessWithFIFO import simultaneously_return
+from Part_1_IcuQueue.DepartureProcessWithReservedBeds import simultaneously_return
 
 random_seed = 5
 random.seed(random_seed)

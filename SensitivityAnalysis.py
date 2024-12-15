@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from Part_2_CareGiver.CareGiverMain import run_multiple_simulations, penalty_average_2
-from Part_1_IcuQueue.IcuQueueMain import run_multiple_simulations, penalty_average_1
+from Part_2_CareGiver.CareGiverMain import  penalty_average_2
+from Part_1_IcuQueue.IcuQueueMain import penalty_average_1
 import sys
 import random
 
@@ -17,7 +17,7 @@ sys.path.append(project_root)
 random_seed = 5
 np.random.seed(random_seed)
 
-def run_sensitivity_analysis( sample_size=5, delta_arrival=0.8, delta_length_of_stays =0.6, delta_request_frequency = 0.5, delta_mean_service_time = 0.08):
+def run_sensitivity_analysis(sample_size=2, delta_arrival=0.8, delta_length_of_stays =0.8, delta_request_frequency = 0.5, delta_mean_service_time = 0.08):
    
     results = []
 
