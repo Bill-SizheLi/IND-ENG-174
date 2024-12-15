@@ -17,9 +17,10 @@ random.seed(random_seed)
 np.random.seed(random_seed)
 sample_size = 5
 
-
+request_frequency = 2  
 m_2 = 0.01 # penalty scale
 alpha_2 = 0.1 # time sensitivity
+mean_service_time = [0.2, 0.5, 1]  
 
 def penaltyFunction2(m_2, alpha_2, service_waiting_times, severity_cor_waiting_times):
     total_penalty = 0
@@ -105,11 +106,11 @@ def plot_average_severity_distribution(grouped_avg, bin_size = 1, save_path = No
 
 # calculate the average penalty and CI of penalties
 
-def penalty_average_2(sample_size, m_2 = m_2, alpha_2 = alpha_2, delta_arrival=0.00,delta_length_of_stays=0.00):
+def penalty_average_2(sample_size, m_2 = m_2, alpha_2 = alpha_2, delta_arrival=0.00,delta_length_of_stays=0.00, delta_request_frequency=0.00, delta_mean_service_time=0.00):
     penalty_list = []
     for i in range(sample_size):
         arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return(delta_arrival, delta_length_of_stays)
-        service_waiting_times, severity_cor_waiting_times = simulate_service_process(start_times, departure_times, severity_level_list, arrival_times)
+        service_waiting_times, severity_cor_waiting_times = simulate_service_process(start_times, departure_times, severity_level_list, arrival_times, request_frequency= request_frequency+delta_request_frequency, mean_service_time= [minutes + delta_mean_service_time for minutes in mean_service_time])
         penalty = float(penaltyFunction2(m_2, alpha_2, service_waiting_times, severity_cor_waiting_times))
         penalty_list.append(penalty)
         average_penalty = np.average(penalty_list)
