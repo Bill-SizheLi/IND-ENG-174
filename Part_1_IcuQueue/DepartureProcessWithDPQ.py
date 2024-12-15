@@ -1,4 +1,9 @@
-from ArrivalProcess import simulate_arrival_process, generate_length_of_stays, rate_distribution_pdf
+import sys
+
+project_root = '/Users/sizheli/Desktop/INDENG_174/IND-ENG-174'
+sys.path.append(project_root)
+
+from Part_1_IcuQueue.ArrivalProcess import simulate_arrival_process, rate_distribution_pdf, generate_length_of_stays
 import numpy as np
 import heapq
 
@@ -78,7 +83,7 @@ def simulate_departure_process_with_dynamic_priority(arrival_times, severity_lev
 
     return departure_times, start_times
 
-def simultaneously_return(m_1=m_1, alpha_1=alpha_1,delta_arrival=0.00, delta_length_of_stays=0.00):
+def simultaneously_return(m_1=m_1, alpha_1=alpha_1,delta_arrival=0.00, delta_length_of_stays=0.00, capacity=capacity):
     """
     Package and return simulation results for external use
     """
