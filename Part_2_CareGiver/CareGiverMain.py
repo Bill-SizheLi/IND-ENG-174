@@ -1,4 +1,4 @@
-from CareRequest import simulate_service_process
+from Part_2_CareGiver.CareRequest import simulate_service_process
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -7,7 +7,7 @@ import os
 from scipy import stats
 import sys
 
-project_root = '/Users/sizheli/Desktop/INDENG_174/IND-ENG-174'
+project_root = '/Users/李奕瑶/IND-ENG-174'
 sys.path.append(project_root)
 
 from Part_1_IcuQueue.DepartureProcessWithFIFO import simultaneously_return
@@ -91,31 +91,31 @@ def plot_average_severity_distribution(grouped_avg, bin_size = 1, save_path = No
 
 
 
-# Create output directories
-output_dir = "Part_2_Caregiver"
-figures_dir = os.path.join(output_dir, "figures")
-os.makedirs(figures_dir, exist_ok=True)
+# # Create output directories
+# output_dir = "Part_2_Caregiver"
+# figures_dir = os.path.join(output_dir, "figures")
+# os.makedirs(figures_dir, exist_ok=True)
 
-# Save the plot to the figures folder
-plot_path = os.path.join(figures_dir, "baseline.png") 
+# # Save the plot to the figures folder
+# plot_path = os.path.join(figures_dir, "baseline.png") 
 
-grouped_avg = run_multiple_simulations(num_simulations=sample_size, bin_size=1)
-plot_average_severity_distribution(grouped_avg, bin_size=1, save_path=plot_path)
+# grouped_avg = run_multiple_simulations(num_simulations=sample_size, bin_size=1)
+# plot_average_severity_distribution(grouped_avg, bin_size=1, save_path=plot_path)
 
 
 # calculate the average penalty and CI of penalties
 
-def penalty_average(sample_size, m_2 = m_2, alpha_2 = alpha_2):
+def penalty_average_2(sample_size, m_2 = m_2, alpha_2 = alpha_2, delta_arrival=0.00,delta_length_of_stays=0.00):
     penalty_list = []
     for i in range(sample_size):
-        arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
+        arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return(delta_arrival, delta_length_of_stays)
         service_waiting_times, severity_cor_waiting_times = simulate_service_process(start_times, departure_times, severity_level_list, arrival_times)
         penalty = float(penaltyFunction2(m_2, alpha_2, service_waiting_times, severity_cor_waiting_times))
         penalty_list.append(penalty)
         average_penalty = np.average(penalty_list)
     return average_penalty, penalty_list
 
-average_penalty, penalty_list = penalty_average(sample_size)
+average_penalty, penalty_list = penalty_average_2(sample_size)
 print(penalty_list)
 
 def calculate_confidence_interval(data = penalty_list, confidence=0.95):
@@ -130,20 +130,21 @@ def calculate_confidence_interval(data = penalty_list, confidence=0.95):
     
     return (lower_bound, upper_bound)
 
-print("Average Penalty:", average_penalty)
-print("95% Confidence Interval:", calculate_confidence_interval())
+# print("Average Penalty:", average_penalty)
+# print("95% Confidence Interval:", calculate_confidence_interval())
 
 
-# Create a penalties subdirectory
-penalties_dir = os.path.join(output_dir, "penalties")
-os.makedirs(penalties_dir, exist_ok=True)
+# # Create a penalties subdirectory
+# penalties_dir = os.path.join(output_dir, "penalties")
+# os.makedirs(penalties_dir, exist_ok=True)
 
-# Save the average penalty to a file
-penalty_file_name = "baseline.txt" 
-penalty_path = os.path.join(penalties_dir, penalty_file_name)
+# # Save the average penalty to a file
+# penalty_file_name = "baseline.txt" 
+# penalty_path = os.path.join(penalties_dir, penalty_file_name)
 
-with open(penalty_path, "w") as f:
-    f.write(f"Penalty 2(Average): {average_penalty}\n")
-    f.write(f"95% Confidence Interval:: {calculate_confidence_interval()}\n")
+# with open(penalty_path, "w") as f:
+#     f.write(f"Penalty 2(Average): {average_penalty}\n")
+#     f.write(f"95% Confidence Interval:: {calculate_confidence_interval()}\n")
 
-print(f"Penalty result saved to {penalty_path}")
+# print(f"Penalty result saved to {penalty_path}")
+

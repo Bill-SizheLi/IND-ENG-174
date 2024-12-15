@@ -1,15 +1,15 @@
 import heapq
 
-from ArrivalProcess import simulate_arrival_process, generate_length_of_stays
+from ArrivalProcess import simulate_arrival_process, generate_length_of_stays,rate_distribution_pdf
 
 capacity = 100  # Maximum ICU capacity
-
-def simulate_departure_process_priority(arrival_times, severity_level_list, capacity=capacity):
+average_length_of_stays = [3, 7, 15]
+def simulate_departure_process_priority(arrival_times, severity_level_list, length_of_stays, capacity=capacity):
     departure_times = [None] * len(arrival_times)
     current_ICU_departures = []   
     start_times = [None] * len(arrival_times)
     waiting_queue = []  # Priority queue to manage patients waiting for ICU admission
-    length_of_stays = generate_length_of_stays(severity_level_list)
+    
 
     for i in range(len(arrival_times)):
         temporary_departure_time_list = []
@@ -107,8 +107,9 @@ def calculate_waiting_times(arrival_times, start_times):
 
 
 # Package the results for return
-def simultaneously_return():
-    arrival_times, severity_level_list = simulate_arrival_process()
+def simultaneously_return(delta_arrival = 0.00, delta_length_of_stays=0.00):
+    arrival_times, severity_level_list = simulate_arrival_process(delta_arrival=delta_arrival)
+    length_of_stays = generate_length_of_stays(severity_level_list,average_length_of_stays=[days + delta_length_of_stays for days in average_length_of_stays])
     departure_times, start_times = simulate_departure_process_priority(arrival_times, severity_level_list)
     waiting_times = calculate_waiting_times(arrival_times, start_times)
     return arrival_times, severity_level_list, start_times, departure_times, waiting_times

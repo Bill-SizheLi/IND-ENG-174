@@ -1,4 +1,4 @@
-from ArrivalProcess import simulate_arrival_process, generate_length_of_stays
+from ArrivalProcess import simulate_arrival_process, generate_length_of_stays, rate_distribution_pdf
 import numpy as np
 import heapq
 
@@ -6,7 +6,7 @@ import heapq
 m_1 = 1  # Penalty scale
 alpha_1 = 0.01  # Time sensitivity
 capacity = 100  # ICU capacity
-
+average_length_of_stays = [3, 7, 15]
 # def penalty_function(m_1, alpha_1, severity, waiting_time):
 
 #     return m_1 * (np.exp(alpha_1 * severity * waiting_time) - 1)
@@ -78,12 +78,12 @@ def simulate_departure_process_with_dynamic_priority(arrival_times, severity_lev
 
     return departure_times, start_times
 
-def simultaneously_return(m_1=m_1, alpha_1=alpha_1):
+def simultaneously_return(m_1=m_1, alpha_1=alpha_1,delta_arrival=0.00, delta_length_of_stays=0.00):
     """
     Package and return simulation results for external use
     """
-    arrival_times, severity_level_list = simulate_arrival_process()
-    length_of_stays = generate_length_of_stays(severity_level_list)
+    arrival_times, severity_level_list = simulate_arrival_process(delta_arrival=delta_arrival)
+    length_of_stays = generate_length_of_stays(severity_level_list,average_length_of_stays=[days + delta_length_of_stays for days in average_length_of_stays])
 
     departure_times, start_times = simulate_departure_process_with_dynamic_priority(
         arrival_times, severity_level_list, length_of_stays, capacity, m_1, alpha_1

@@ -1,4 +1,4 @@
-from DepartureProcessWithDPQandReservedBeds import simultaneously_return
+from Part_1_IcuQueue.DepartureProcessWithDPQandReservedBeds import simultaneously_return
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -24,7 +24,7 @@ def penaltyFunction1(m_1, alpha, severity_level_list, waiting_times):
 
 
 # Function to run 100 simulations and aggregate the results
-def run_multiple_simulations(num_simulations = sample_size, bin_size = 24):
+def run_multiple_simulations(num_simulations = sample_size, bin_size = 24, delta_arrival=0.00, delta_length_of_stays=0.00):
     """
     Runs multiple simulations and returns the aggregated waiting times and severity levels.
     """
@@ -33,7 +33,7 @@ def run_multiple_simulations(num_simulations = sample_size, bin_size = 24):
 
     # Run simulations
     for _ in range(num_simulations):
-        arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
+        arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return(delta_arrival, delta_length_of_stays)
         df = pd.DataFrame({'waiting_times': waiting_times, 'severity_levels': severity_level_list})
         aggregated_data.append(df)
     
@@ -103,16 +103,16 @@ plot_average_severity_distribution(grouped_avg, bin_size=24, save_path=plot_path
 
 # calculate the average penalty and CI of penalties
 
-def penalty_average(sample_size, m_1 = m_1, alpha_1 = alpha_1):
+def penalty_average_1(sample_size, m_1 = m_1, alpha_1 = alpha_1,delta_arrival=0.00,delta_length_of_stays=0.00):
     penalty_list = []
     for i in range(sample_size):
-        arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return()
+        arrival_times, severity_level_list, start_times, departure_times, waiting_times = simultaneously_return(delta_arrival, delta_length_of_stays)
         penalty = float(penaltyFunction1(m_1, alpha_1, severity_level_list, waiting_times))
         penalty_list.append(penalty)
     average_penalty = np.average(penalty_list)
     return average_penalty, penalty_list
 
-average_penalty, penalty_list = penalty_average(sample_size)
+average_penalty, penalty_list = penalty_average_1(sample_size)
 #print(penalty_list)
 
 def calculate_confidence_interval(data = penalty_list, confidence=0.95):
@@ -144,3 +144,4 @@ with open(penalty_path, "w") as f:
     f.write(f"95% Confidence Interval:: {calculate_confidence_interval()}\n")
 
 print(f"Penalty result saved to {penalty_path}")
+

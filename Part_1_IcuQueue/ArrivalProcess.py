@@ -11,17 +11,17 @@ average_length_of_stays = [3, 7, 15] # averagely, Mild - 3 days; Moderate - 7 da
 # this function aims at characterizing the rate distribution of one day
 # number of patients per hour
 # 0 <= t <= 24
-def rate_distribution_pdf(t):
+def rate_distribution_pdf(t, delta = 0.00):
     if t >= 9 and t < 12:
-        return 3.0
+        return 3.0 + delta
     if t >= 12 and t < 17:
-        return 1.5
+        return 1.5 + delta
     if t >= 17 and t < 20:
-        return 2.5
+        return 2.5 + delta
     if t >= 20 or t < 4:
-        return 0.7
+        return 0.7 + delta
     if t >= 4 and t < 9:
-        return 1.0
+        return 1.0 + delta
 
 #print(rate_distribution_pdf(1))
 
@@ -34,7 +34,7 @@ def severity_level_list(size, severity_levels = severity_levels, probabilities =
 # This function intends to simulate the arrival process of given time horizon.
 # time_horizon: total number of days that we want to simulate
 # lambda_max: the maximal arriving rate (number of patients per hour) in a day
-def simulate_arrival_process(time_horizon = time_horizon, lambda_max = lambda_max, rate_distribution_pdf = rate_distribution_pdf,  severity_level_list = severity_level_list):
+def simulate_arrival_process(time_horizon = time_horizon, lambda_max = lambda_max, rate_distribution_pdf = rate_distribution_pdf,  severity_level_list = severity_level_list, delta_arrival =0.00):
     t = 0 # in hours
     arrival_times = []
 
@@ -45,7 +45,7 @@ def simulate_arrival_process(time_horizon = time_horizon, lambda_max = lambda_ma
             break
 
         # acceptance-rejection
-        if random.uniform(0, 1) < rate_distribution_pdf(t % 24) / lambda_max:
+        if random.uniform(0, 1) < rate_distribution_pdf(t % 24, delta_arrival) / lambda_max:
             arrival_times.append(t)
 
     severity_level_list = severity_level_list(len(arrival_times))
@@ -66,3 +66,4 @@ def generate_length_of_stays(severity_level_list, average_length_of_stays=averag
 
 # length_of_stays = generate_length_of_stays(severity_level_list)
 # print(length_of_stays[23])
+
