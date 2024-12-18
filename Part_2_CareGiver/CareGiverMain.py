@@ -11,7 +11,7 @@ import random
 import os
 from scipy import stats
 
-from Part_1_IcuQueue.DepartureProcessWithReservedBeds import simultaneously_return
+from Part_1_IcuQueue.DepartureProcessWithFIFO import simultaneously_return
 
 random_seed = 5
 random.seed(random_seed)

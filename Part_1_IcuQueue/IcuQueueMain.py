@@ -2,7 +2,7 @@ import sys
 
 project_root = '/Users/sizheli/Desktop/INDENG_174/IND-ENG-174'
 sys.path.append(project_root)
-from Part_1_IcuQueue.DepartureProcessWithDPQandReservedBeds import simultaneously_return
+from Part_1_IcuQueue.DepartureProcessWithFIFO import simultaneously_return
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
