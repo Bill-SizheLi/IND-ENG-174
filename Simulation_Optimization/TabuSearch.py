@@ -1,3 +1,8 @@
+import sys
+
+project_root = '/Users/sizheli/Desktop/INDENG_174/IND-ENG-174'
+sys.path.append(project_root)
+
 import numpy as np
 import time
 import math
