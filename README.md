@@ -1,10 +1,10 @@
 # ICU Resource Optimization and Simulation Project
 
 ### Authors
-- **Kenny Chan** - kennychan@berkeley.edu - [GitHub](https://github.com/Melatoni)  
+- **Kenny Chan** - kennychan@berkeley.edu   
 - **Sizhe Li** - sizheli@berkeley.edu  
 - **Siqi Yao** - siqiyao2024@berkeley.edu  
-- **Yiyao Li** - yiyao@example.com  
+- **Yiyao Li** - yiyaoli@berkeley.edu
 
 ---
 
@@ -50,7 +50,6 @@ Key components:
 │   ├── ExhaustiveSearch.py
 │   ├── ParetoFrontSearch.py
 │   ├── TabuSearch.py
-│   ├── TabuSearch_New.py
 │   └── __init__.py
 │
 ├── README.md
